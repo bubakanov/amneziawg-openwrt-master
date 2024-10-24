@@ -1,5 +1,4 @@
 name: Create Release on Tag
-# on: [workflow_dispatch]
 on:
   workflow_dispatch:
   push:
@@ -37,7 +36,6 @@ jobs:
             ${{ runner.os }}-build-vm4-cache-tools-kernel-${{ matrix.build_env.tag }}-${{ matrix.build_env.pkgarch}}-
 
       - name: Building kernel and tools
-        #if: ${{ steps.cache-tools-kernel.outputs.cache-hit != 'true' }}
         run: |
           echo "pkgarch: ${{ matrix.build_env.pkgarch}}, target:${{ matrix.build_env.target}}, subtarget: ${{ matrix.build_env.subtarget}}"
 
@@ -124,3 +122,4 @@ jobs:
         with:
           files: awgrelease/*.ipk
           tag_name: ${{ steps.tag.outputs.release_tag }}
+          token: ${{ secrets.GH_TOKEN }}
