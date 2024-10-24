@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         build_env:
-          - tag: "snapshots"
+          - tag: "SNAPSHOT"
             pkgarch: aarch64_cortex-a53
             target: mediatek
             subtarget: filogic
@@ -42,12 +42,12 @@ jobs:
           echo "pkgarch: ${{ matrix.build_env.pkgarch}}, target:${{ matrix.build_env.target}}, subtarget: ${{ matrix.build_env.subtarget}}"
 
           # Setup & install feeds
-          wget https://downloads.openwrt.org/${{ matrix.build_env.tag }}/targets/${{ matrix.build_env.target}}/${{ matrix.build_env.subtarget}}/feeds.buildinfo -O feeds.conf
+          wget https://github.com/dimfishr/openwrt/releases/download/filogic-2024-10-15/feeds.buildinfo -O feeds.conf
           echo "src-git awgopenwrt https://github.com/dimfishr/amneziawg-openwrt.git" >> ./feeds.conf
           ./scripts/feeds update && ./scripts/feeds install -a
 
           # Setup config with AWG and dependencies
-          wget https://downloads.openwrt.org/${{ matrix.build_env.tag }}/targets/${{ matrix.build_env.target}}/${{ matrix.build_env.subtarget}}/config.buildinfo -O .config
+          wget https://github.com/dimfishr/openwrt/releases/download/filogic-2024-10-15/config.buildinfo -O .config
           echo "CONFIG_PACKAGE_kmod-amneziawg=m" >> .config
           echo "CONFIG_PACKAGE_amneziawg-tools=y" >> .config
           echo "CONFIG_PACKAGE_luci-proto-amneziawg=y" >> .config
